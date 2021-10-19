@@ -39,13 +39,13 @@ class Game:
     def handle_keys(self, key):
         if not self.paused:
             self.handle_movement(key)
-        if key == pygame.K_ESCAPE:
-            self.pause()
 
     def check_input(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.pause()
 
         keys = pygame.key.get_pressed()
         self.handle_keys(keys)
