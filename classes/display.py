@@ -1,5 +1,6 @@
 import pygame
 from config import COLORS
+from classes.bullet import Bullet
 
 
 class Display:
@@ -8,7 +9,7 @@ class Display:
         self.height = height
         self.caption = caption
         self.size = (self.width, self.height)
-        self.sprites = []
+        self.sprites = set()
         self.is_fullscreen = False
         self.create()
 
@@ -29,8 +30,11 @@ class Display:
     def update(self):
         self.fill()
         self.draw()
+        self.width, self.height = self.display.get_surface().get_size()
         self.display.update()
 
     def draw(self):
         for sprite in self.sprites:
+            if isinstance(sprite, Bullet):
+                sprite.travel('up')
             self.screen.blit(sprite.sprite, sprite.position)

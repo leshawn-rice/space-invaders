@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         self.display = Display(width = 600, height = 600, caption = 'Space Invaders')
         self.player = Player(image='images/player.png', width=200, height=200)
-        self.display.sprites.append(self.player)
+        self.display.sprites.add(self.player)
         self.playing = True
         self.paused = False
         self.loop()
@@ -35,10 +35,16 @@ class Game:
         elif keys[pygame.K_LEFT]:
             self.player.move_left()
 
+    def handle_shot(self, keys):
+        # get time of last shot bullet, if X ms have elapsed, then shoot buller
+        if keys[pygame.K_SPACE] and len(self.player.bullets) < 200:
+            self.player.shoot_bullet()
+
 
     def handle_keys(self, key):
         if not self.paused:
             self.handle_movement(key)
+            self.handle_shot(key)
 
     def check_input(self):
         for event in pygame.event.get():
@@ -54,4 +60,13 @@ class Game:
     def loop(self):
         while self.playing:
             self.check_input()
+            player_bullets_copy = self.player.bullets.copy()
+            for bullet in self.player.bullets:
+                if bullet.y_position > self.display.height or bullet.y_position < 0:
+                    player_bullets_copy.remove(bullet)
+                    if bullet in self.display.sprites:
+                        self.display.sprites.remove(bullet)
+                elif bullet not in self.display.sprites:
+                    self.display.sprites.add(bullet)
+            self.player.bullets = player_bullets_copy
             self.display.update()

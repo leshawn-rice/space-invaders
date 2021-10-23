@@ -17,7 +17,6 @@ class Sprite:
         self.x_position = x 
         self.y_position = y 
         self.position = (self.x_position, self.y_position)
-
     
     def move_left(self):
         self.move(x = self.x_position - self.speed, y = self.y_position)
