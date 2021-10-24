@@ -1,4 +1,5 @@
 import pygame
+import datetime
 
 class Sprite:
     def __init__(self, image: str = 'images/sprite.png', width: int = 100, height: int = 100, x_position: int = 0, y_position: int = 0):
@@ -11,6 +12,11 @@ class Sprite:
         self.x_position = x_position
         self.y_position = y_position
         self.position = (self.x_position, self.y_position)
+        self.last_recorded_time = datetime.datetime.now()
+
+    def get_time_diff(self):
+        self.current_time = datetime.datetime.now()
+        return (self.current_time - self.last_recorded_time).total_seconds() * 1000
 
 
     def move(self, x: int = 0, y: int = 0):

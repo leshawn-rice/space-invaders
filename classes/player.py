@@ -5,16 +5,14 @@ import datetime
 
 
 class Player(Sprite):
-    def __init__(self, image: str = 'images/player.png', width: int = 50, height: int = 50):
-        super().__init__(image=image, width=width, height=height, x_position=200, y_position=600 - height)
+    def __init__(self, image: str = 'images/player.png', width: int = 50, height: int = 50, x_position=200):
+        super().__init__(image=image, width=width, height=height, x_position=x_position, y_position=600 - height)
         self.bullets = set()
-        self.last_shot = datetime.datetime.now()
 
     def shoot_bullet(self):
-        current_time = datetime.datetime.now()
-        time_diff_ms = (current_time -  self.last_shot).total_seconds() * 1000
+        time_diff_ms = self.get_time_diff()
         if time_diff_ms >= 50:
-            self.last_shot = current_time
+            self.last_recorded_time = self.current_time
             bullet = Bullet(image='images/bullet.png', x_position=(self.x_position+(self.width / 2) - 24 / 2), y_position=self.y_position - 25, shooter=self)
             self.bullets.add(bullet)
 

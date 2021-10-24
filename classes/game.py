@@ -37,7 +37,7 @@ class Game:
 
     def handle_shot(self, keys):
         # get time of last shot bullet, if X ms have elapsed, then shoot buller
-        if keys[pygame.K_SPACE] and len(self.player.bullets) < 200:
+        if keys[pygame.K_SPACE]:
             self.player.shoot_bullet()
 
 
