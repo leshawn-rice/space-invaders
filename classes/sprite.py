@@ -29,3 +29,6 @@ class Sprite:
 
     def move_down(self):
         self.move(x = self.x_position, y = self.y_position + self.speed)
+
+    def update(self, display):
+        pass

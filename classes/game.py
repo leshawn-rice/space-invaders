@@ -7,7 +7,7 @@ from classes.player import Player
 class Game:
     def __init__(self):
         self.display = Display(width = 600, height = 600, caption = 'Space Invaders')
-        self.player = Player(image='images/player.png', width=200, height=200)
+        self.player = Player(image='images/player.png', width=100, height=100)
         self.display.sprites.add(self.player)
         self.playing = True
         self.paused = False
@@ -60,13 +60,4 @@ class Game:
     def loop(self):
         while self.playing:
             self.check_input()
-            player_bullets_copy = self.player.bullets.copy()
-            for bullet in self.player.bullets:
-                if bullet.y_position > self.display.height or bullet.y_position < 0:
-                    player_bullets_copy.remove(bullet)
-                    if bullet in self.display.sprites:
-                        self.display.sprites.remove(bullet)
-                elif bullet not in self.display.sprites:
-                    self.display.sprites.add(bullet)
-            self.player.bullets = player_bullets_copy
             self.display.update()

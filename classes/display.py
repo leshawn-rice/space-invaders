@@ -34,7 +34,7 @@ class Display:
         self.display.update()
 
     def draw(self):
-        for sprite in self.sprites:
-            if isinstance(sprite, Bullet):
-                sprite.travel('up')
+        sprites_copy = self.sprites.copy()
+        for sprite in sprites_copy:
+            sprite.update(self)
             self.screen.blit(sprite.sprite, sprite.position)
