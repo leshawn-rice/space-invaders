@@ -3,7 +3,8 @@ from classes.sprite import Sprite
 
 class Bullet(Sprite):
     def __init__(self, image: str = 'images/sprite.png', width: int = 10, height: int = 15, x_position: int = 0, y_position: int = 0, shooter=None):
-        super().__init__(image=image, width=width, height=height, x_position=x_position, y_position=y_position)
+        super().__init__(image=image, width=width, height=height,
+                         x_position=x_position, y_position=y_position)
         self.speed = 1.5
         self.direction = 'up'
         self.shooter = shooter

@@ -6,14 +6,16 @@ import datetime
 
 class Player(Sprite):
     def __init__(self, image: str = 'images/player.png', width: int = 75, height: int = 75, x_position=200):
-        super().__init__(image=image, width=width, height=height, x_position=x_position, y_position=600 - height)
+        super().__init__(image=image, width=width, height=height,
+                         x_position=x_position, y_position=600 - height)
         self.bullets = set()
 
     def shoot_bullet(self):
         time_diff_ms = self.get_time_diff()
         if time_diff_ms >= 50:
             self.last_recorded_time = self.current_time
-            bullet = Bullet(image='images/bullet.png', x_position=self.x_position+(self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
+            bullet = Bullet(image='images/bullet.png', x_position=self.x_position +
+                            (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
             self.bullets.add(bullet)
 
     def check_bound(self, display):
@@ -36,7 +38,3 @@ class Player(Sprite):
     def update(self, display):
         self.check_bound(display)
         self.display_bullets(display)
-
-
-
-    

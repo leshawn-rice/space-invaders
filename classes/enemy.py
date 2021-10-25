@@ -6,7 +6,8 @@ import datetime
 
 class Enemy(Sprite):
     def __init__(self, image: str = 'images/enemy.png', width: int = 50, height: int = 50, x_position=200, y_position=0):
-        super().__init__(image=image, width=width, height=height, x_position=x_position, y_position=y_position)
+        super().__init__(image=image, width=width, height=height,
+                         x_position=x_position, y_position=y_position)
         self.bullets = set()
         self.will_be_destroyed = False
         self.destroyed = False
@@ -16,7 +17,8 @@ class Enemy(Sprite):
         time_diff_ms = self.get_time_diff()
         if time_diff_ms >= 50:
             self.last_recorded_time = self.current_time
-            bullet = Bullet(image='images/bullet.png', x_position=self.x_position+(self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
+            bullet = Bullet(image='images/bullet.png', x_position=self.x_position +
+                            (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
             bullet.direction = 'down'
             self.bullets.add(bullet)
 
@@ -45,7 +47,3 @@ class Enemy(Sprite):
         self.display_bullets(display)
         self.check_destroyed(display)
         self.move_down()
-
-
-
-    

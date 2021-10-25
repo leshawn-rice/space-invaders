@@ -8,7 +8,7 @@ from classes.enemy import Enemy
 
 class Game:
     def __init__(self):
-        self.display = Display(caption = 'Space Invaders')
+        self.display = Display(caption='Space Invaders')
         self.player = Player()
         self.enemies = set()
         self.display.sprites.add(self.player)
@@ -21,12 +21,10 @@ class Game:
         pygame.quit()
         sys.exit(0)
 
-
     def pause(self):
         self.paused = not self.paused
         while self.paused:
             self.check_input()
-
 
     def handle_movement(self, keys):
         if keys[pygame.K_UP]:
@@ -42,7 +40,6 @@ class Game:
         # get time of last shot bullet, if X ms have elapsed, then shoot buller
         if keys[pygame.K_SPACE]:
             self.player.shoot_bullet()
-
 
     def handle_keys(self, key):
         if not self.paused:
@@ -60,7 +57,8 @@ class Game:
         self.handle_keys(keys)
 
     def create_enemies(self):
-        self.enemies = set([sprite for sprite in self.display.sprites if isinstance(sprite, Enemy)])
+        self.enemies = set(
+            [sprite for sprite in self.display.sprites if isinstance(sprite, Enemy)])
         if len(self.enemies) < 5:
             for i in range(5 - len(self.enemies)):
                 x = random.randint(0, self.display.width - 100)
@@ -69,11 +67,9 @@ class Game:
                 self.enemies.add(enemy)
                 self.display.sprites.add(enemy)
 
-
     def check_collisions(self):
         for enemy in self.enemies:
             enemy.check_collision_bullet(self.player)
-
 
     def loop(self):
         while self.playing:

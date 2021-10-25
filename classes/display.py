@@ -19,21 +19,20 @@ class Display:
         self.fps = 1200
         self.create()
 
-
     def create(self):
         pygame.init()
         self.display = pygame.display
-        self.screen = pygame.display.set_mode(size = self.size, flags=pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode(
+            size=self.size, flags=pygame.RESIZABLE)
         self.display.set_caption(self.caption)
         self.clock = pygame.time.Clock()
-        self.created_stars = Star.create(display=self, last_recorded_time=self.created_stars, is_initial=True)
-
+        self.created_stars = Star.create(
+            display=self, last_recorded_time=self.created_stars, is_initial=True)
 
     def fill(self, color: tuple = None):
         if not color:
             color = COLORS.get('BLUE')
         self.screen.fill(color)
-
 
     def update(self):
         self.fill()
@@ -46,7 +45,8 @@ class Display:
         sprites_copy = self.sprites.copy()
         player = None
         enemies = set()
-        self.created_stars = Star.create(display=self, last_recorded_time=self.created_stars)
+        self.created_stars = Star.create(
+            display=self, last_recorded_time=self.created_stars)
         print(len(self.sprites))
         for sprite in sprites_copy:
             sprite.update(self)
@@ -54,7 +54,7 @@ class Display:
                 player = sprite
             elif isinstance(sprite, Enemy):
                 enemies.add(sprite)
-            else: 
+            else:
                 self.screen.blit(sprite.sprite, sprite.position)
         for enemy in enemies:
             self.screen.blit(enemy.sprite, enemy.position)

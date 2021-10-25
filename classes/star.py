@@ -5,16 +5,16 @@ import random
 
 class Star(Sprite):
     MAX_STARS = 15
-    
+
     def __init__(self, image: str = 'images/star.png', width: int = 5, height: int = 5, x_position: int = 0, y_position: int = 0):
         super().__init__(image, width, height, x_position, y_position)
         self.speed = 0.25
 
-
     @classmethod
     def create(cls, display=None, last_recorded_time=None, is_initial=False):
         current_time = datetime.datetime.now()
-        time_diff_ms = (current_time -  last_recorded_time).total_seconds() * 1000
+        time_diff_ms = (
+            current_time - last_recorded_time).total_seconds() * 1000
         if time_diff_ms >= 250 or is_initial:
             last_recorded_time = current_time
             for i in range(cls.MAX_STARS):
@@ -23,7 +23,6 @@ class Star(Sprite):
                 star = cls(x_position=x, y_position=y)
                 display.sprites.add(star)
         return last_recorded_time
-
 
     def check_bound(self, display):
         try:
