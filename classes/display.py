@@ -1,14 +1,13 @@
 import pygame
-import random
 import datetime
 from config import COLORS
-from classes.bullet import Bullet
 from classes.player import Player
+from classes.enemy import Enemy
 from classes.star import Star
 
 
 class Display:
-    def __init__(self, width: int = 600, height: int = 600, caption: str = 'Space Invaders'):
+    def __init__(self, width: int = 1200, height: int = 600, caption: str = 'Space Invaders'):
         self.width = width
         self.height = height
         self.caption = caption
@@ -17,28 +16,17 @@ class Display:
         self.sprites = set()
         self.is_fullscreen = False
         self.created_stars = datetime.datetime.now()
+        self.fps = 1200
         self.create()
 
-
-    def create_stars(self):
-        current_time = datetime.datetime.now()
-        time_diff_ms = (current_time -  self.created_stars).total_seconds() * 1000
-        if time_diff_ms >= 250 or len(self.stars) == 0:
-            self.created_stars = current_time
-            for i in range(50):
-                x = random.randint(1, self.width)
-                y = random.randint(1, self.height)
-                star = Star(x_position=x, y_position=y)
-                self.stars.add(star)
-
-            
 
     def create(self):
         pygame.init()
         self.display = pygame.display
         self.screen = pygame.display.set_mode(size = self.size, flags=pygame.RESIZABLE)
         self.display.set_caption(self.caption)
-        self.create_stars()
+        self.clock = pygame.time.Clock()
+        self.created_stars = Star.create(display=self, last_recorded_time=self.created_stars, is_initial=True)
 
 
     def fill(self, color: tuple = None):
@@ -52,19 +40,22 @@ class Display:
         self.draw()
         self.width, self.height = self.display.get_surface().get_size()
         self.display.update()
+        # self.clock.tick(self.fps)
 
     def draw(self):
         sprites_copy = self.sprites.copy()
         player = None
-        self.create_stars()
-        stars_copy = self.stars.copy()
-        for star in stars_copy:
-            star.update(self)
-            self.screen.blit(star.sprite, star.position)
+        enemies = set()
+        self.created_stars = Star.create(display=self, last_recorded_time=self.created_stars)
+        print(len(self.sprites))
         for sprite in sprites_copy:
             sprite.update(self)
-            if not isinstance(sprite, Player):
-                self.screen.blit(sprite.sprite, sprite.position)
-            else: 
+            if isinstance(sprite, Player):
                 player = sprite
+            elif isinstance(sprite, Enemy):
+                enemies.add(sprite)
+            else: 
+                self.screen.blit(sprite.sprite, sprite.position)
+        for enemy in enemies:
+            self.screen.blit(enemy.sprite, enemy.position)
         self.screen.blit(player.sprite, player.position)
