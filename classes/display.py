@@ -16,7 +16,6 @@ class Display:
         self.sprites = set()
         self.is_fullscreen = False
         self.created_stars = datetime.datetime.now()
-        self.fps = 1200
         self.create()
 
     def create(self):
@@ -25,7 +24,6 @@ class Display:
         self.screen = pygame.display.set_mode(
             size=self.size, flags=pygame.RESIZABLE)
         self.display.set_caption(self.caption)
-        self.clock = pygame.time.Clock()
         self.created_stars = Star.create(
             display=self, last_recorded_time=self.created_stars, is_initial=True)
 
@@ -39,7 +37,6 @@ class Display:
         self.draw()
         self.width, self.height = self.display.get_surface().get_size()
         self.display.update()
-        # self.clock.tick(self.fps)
 
     def draw(self):
         sprites_copy = self.sprites.copy()
