@@ -1,7 +1,11 @@
 from classes.sprite import Sprite
 from classes.bullet import Bullet
 import pygame
-import datetime
+import random
+
+
+def generate_x(display):
+    return random.randint(0, display.width - 50)
 
 
 class Enemy(Sprite):
@@ -13,12 +17,21 @@ class Enemy(Sprite):
         self.destroyed = False
         self.speed = 0.25
 
+    @classmethod
+    def create(cls, positions, display):
+        x = generate_x(display)
+        for pos in positions:
+            while (pos <= x <= pos + 100) or (pos - 100 <= x <= pos):
+                x = generate_x(display)
+        y = -50
+        return cls(x_position=x, y_position=y)
+
     def shoot_bullet(self):
         time_diff_ms = self.get_time_diff()
-        if time_diff_ms >= 50:
+        if time_diff_ms >= random.randint(750, 1500):
             self.last_recorded_time = self.current_time
-            bullet = Bullet(image='images/bullet.png', x_position=self.x_position +
-                            (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
+            bullet = Bullet(image='images/enemy-bullet.png', x_position=self.x_position +
+                            (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self, width=5, height=15)
             bullet.direction = 'down'
             self.bullets.add(bullet)
 
@@ -31,7 +44,8 @@ class Enemy(Sprite):
 
     def check_bound(self, display):
         if self.y_position > display.height:
-            display.sprites.remove(self)
+            self.y_position = -self.height
+            # display.sprites.remove(self)
 
     def display_bullets(self, display):
         for bullet in self.bullets:
@@ -43,6 +57,7 @@ class Enemy(Sprite):
             display.sprites.remove(self)
 
     def update(self, display):
+        self.shoot_bullet()
         self.check_bound(display)
         self.display_bullets(display)
         self.check_destroyed(display)

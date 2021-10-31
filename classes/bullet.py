@@ -19,19 +19,19 @@ class Bullet(Sprite):
         elif self.direction == 'move_right':
             self.move_right()
 
+    def destroy(self, display):
+        self.shooter.bullets.remove(self)
+        display.sprites.remove(self)
+
     def check_bound(self, display):
         if self.x_position <= 0:
-            display.sprites.remove(self)
-            self.shooter.bullets.remove(self)
+            self.destroy(display)
         if self.x_position + self.width >= display.width:
-            display.sprites.remove(self)
-            self.shooter.bullets.remove(self)
+            self.destroy(display)
         if self.y_position <= 0:
-            display.sprites.remove(self)
-            self.shooter.bullets.remove(self)
+            self.destroy(display)
         if self.y_position + self.height >= display.height:
-            display.sprites.remove(self)
-            self.shooter.bullets.remove(self)
+            self.destroy(display)
 
     def update(self, display):
         self.travel()

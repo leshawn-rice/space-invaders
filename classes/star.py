@@ -8,7 +8,7 @@ class Star(Sprite):
 
     def __init__(self, image: str = 'images/star.png', width: int = 5, height: int = 5, x_position: int = 0, y_position: int = 0):
         super().__init__(image, width, height, x_position, y_position)
-        self.speed = 0.25
+        self.speed = 0.2
 
     @classmethod
     def create(cls, display=None, last_recorded_time=None, is_initial=False):

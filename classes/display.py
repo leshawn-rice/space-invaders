@@ -44,7 +44,6 @@ class Display:
         enemies = set()
         self.created_stars = Star.create(
             display=self, last_recorded_time=self.created_stars)
-        print(len(self.sprites))
         for sprite in sprites_copy:
             sprite.update(self)
             if isinstance(sprite, Player):

@@ -1,6 +1,7 @@
 import sys
 import pygame
 import random
+import time
 from classes.display import Display
 from classes.player import Player
 from classes.enemy import Enemy
@@ -37,7 +38,6 @@ class Game:
             self.player.move_left()
 
     def handle_shot(self, keys):
-        # get time of last shot bullet, if X ms have elapsed, then shoot buller
         if keys[pygame.K_SPACE]:
             self.player.shoot_bullet()
 
@@ -59,20 +59,27 @@ class Game:
     def create_enemies(self):
         self.enemies = set(
             [sprite for sprite in self.display.sprites if isinstance(sprite, Enemy)])
+
         if len(self.enemies) < 5:
             for i in range(5 - len(self.enemies)):
-                x = random.randint(0, self.display.width - 100)
-                y = 0
-                enemy = Enemy(x_position=x, y_position=y)
+                positions = [enemy.x_position for enemy in self.enemies]
+                will_create = random.randint(1, 100)
+                if will_create <= 50:
+                    continue
+                enemy = Enemy.create(positions, self.display)
                 self.enemies.add(enemy)
                 self.display.sprites.add(enemy)
 
     def check_collisions(self):
         for enemy in self.enemies:
             enemy.check_collision_bullet(self.player)
+            self.player.check_collision_bullet(enemy, self.display)
 
     def loop(self):
         while self.playing:
+            if self.player.lives <= 0:
+                self.playing = False
+                continue
             self.check_input()
             self.check_collisions()
             self.create_enemies()

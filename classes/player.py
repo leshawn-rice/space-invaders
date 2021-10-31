@@ -5,10 +5,11 @@ import datetime
 
 
 class Player(Sprite):
-    def __init__(self, image: str = 'images/player.png', width: int = 75, height: int = 75, x_position=200):
+    def __init__(self, image: str = 'images/player.png', width: int = 50, height: int = 75, x_position=200):
         super().__init__(image=image, width=width, height=height,
                          x_position=x_position, y_position=600 - height)
         self.bullets = set()
+        self.lives = 5
 
     def shoot_bullet(self):
         time_diff_ms = self.get_time_diff()
@@ -17,6 +18,15 @@ class Player(Sprite):
             bullet = Bullet(image='images/bullet.png', x_position=self.x_position +
                             (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
             self.bullets.add(bullet)
+
+    def check_collision_bullet(self, enemy, display):
+        for bullet in enemy.bullets:
+            if self.x_position <= bullet.x_position <= self.x_position + self.width and self.y_position <= bullet.y_position <= self.y_position + self.height:
+                self.destroyed = True
+                self.lives -= 1
+                print(self.lives)
+                bullet.destroy(display)
+                return
 
     def check_bound(self, display):
         if self.x_position <= 0:
