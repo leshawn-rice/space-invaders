@@ -8,6 +8,12 @@ def generate_x(display):
     return random.randint(0, display.width - 50)
 
 
+def is_position_conflict(positions, coord):
+    for pos in positions:
+        if (pos <= coord <= pos + 100) or (pos - 50 <= coord <= pos):
+            return True
+
+
 class Enemy(Sprite):
     def __init__(self, image: str = 'images/enemy.png', width: int = 50, height: int = 50, x_position=200, y_position=0):
         super().__init__(image=image, width=width, height=height,
@@ -20,10 +26,9 @@ class Enemy(Sprite):
     @classmethod
     def create(cls, positions, display):
         x = generate_x(display)
-        for pos in positions:
-            while (pos <= x <= pos + 100) or (pos - 100 <= x <= pos):
-                x = generate_x(display)
         y = -50
+        while is_position_conflict(positions, x):
+            x = generate_x(display)
         return cls(x_position=x, y_position=y)
 
     def shoot_bullet(self):
