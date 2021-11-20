@@ -1,7 +1,6 @@
 import sys
 import pygame
 import random
-import time
 from classes.display import Display
 from classes.player import Player
 from classes.enemy import Enemy

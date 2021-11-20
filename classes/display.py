@@ -4,6 +4,7 @@ from config import COLORS
 from classes.player import Player
 from classes.enemy import Enemy
 from classes.star import Star
+from classes.lives import Lives
 
 
 class Display:
@@ -20,6 +21,7 @@ class Display:
 
     def create(self):
         pygame.init()
+        self.lives = Lives()
         self.display = pygame.display
         self.screen = pygame.display.set_mode(
             size=self.size, flags=pygame.RESIZABLE)
@@ -55,3 +57,4 @@ class Display:
         for enemy in enemies:
             self.screen.blit(enemy.sprite, enemy.position)
         self.screen.blit(player.sprite, player.position)
+        self.screen.blit(self.lives.sprite, self.lives.position)

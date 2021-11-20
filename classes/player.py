@@ -24,7 +24,7 @@ class Player(Sprite):
             if self.x_position <= bullet.x_position <= self.x_position + self.width and self.y_position <= bullet.y_position <= self.y_position + self.height:
                 self.destroyed = True
                 self.lives -= 1
-                print(self.lives)
+                display.lives.remove()
                 bullet.destroy(display)
                 return
 
