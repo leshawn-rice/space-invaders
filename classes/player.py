@@ -1,7 +1,7 @@
+import pygame
 from classes.sprite import Sprite
 from classes.bullet import Bullet
-import pygame
-import datetime
+from classes.sound import Sound
 
 
 class Player(Sprite):
@@ -10,6 +10,11 @@ class Player(Sprite):
                          x_position=x_position, y_position=600 - height)
         self.bullets = set()
         self.lives = 5
+        self.sounds = {
+            'shoot': Sound('sounds/shoot.mp3'),
+            'lose-health': Sound('sounds/lose-health.mp3')
+        }
+        pygame.mixer.Sound.set_volume(self.sounds['lose-health'].sound, 1)
 
     def shoot_bullet(self):
         time_diff_ms = self.get_time_diff()
@@ -18,6 +23,7 @@ class Player(Sprite):
             bullet = Bullet(image='images/bullet.png', x_position=self.x_position +
                             (self.width / 2) - 10 / 2, y_position=self.y_position, shooter=self)
             self.bullets.add(bullet)
+            self.sounds['shoot'].play()
 
     def check_collision_bullet(self, enemy, display):
         for bullet in enemy.bullets:
@@ -26,6 +32,7 @@ class Player(Sprite):
                 self.lives -= 1
                 display.lives.remove()
                 bullet.destroy(display)
+                self.sounds['lose-health'].play()
                 return
 
     def check_bound(self, display):

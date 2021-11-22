@@ -21,6 +21,8 @@ class Display:
 
     def create(self):
         pygame.init()
+        pygame.font.init()
+        pygame.mixer.init()
         self.lives = Lives()
         self.display = pygame.display
         self.screen = pygame.display.set_mode(
