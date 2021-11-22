@@ -13,7 +13,7 @@ class Lives:
         self.position = (self.x_position, self.y_position)
         self.color = COLORS.get('RED')
         self.background_color = COLORS.get('BLUE')
-        self.font = pygame.font.Font("seguisym.ttf", self.size)
+        self.font = pygame.font.Font('fonts/seguisym.ttf', self.size)
         self.text = '♥ ' * self.lives + '♡ ' * \
             (0 + (self.max_lives - self.lives))
         self.sprite = self.font.render(
